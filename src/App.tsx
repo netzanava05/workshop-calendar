@@ -1,4 +1,5 @@
 import React, { FC, useState, useMemo, useCallback } from "react";
+import clsx from "clsx";
 import * as dateFn from "date-fns";
 import Calendar from "./components/Calendar";
 import { makeStyles } from "@material-ui/core/styles";
@@ -13,17 +14,25 @@ const useStyles = makeStyles(theme => ({
   root: {
     display: "flex",
     flexDirection: "column",
-    alignItems: "center"
+    alignItems: "center",
+    padding: theme.spacing(0),
+    [theme.breakpoints.up("sm")]: {
+      padding: theme.spacing(2, 4)
+    }
   },
   paper: {
     display: "inline-flex",
     justifyContent: "space-between",
     alignItems: "center",
     padding: theme.spacing(1),
-    margin: theme.spacing(1),
     width: "100%",
     backgroundColor: theme.palette.primary.main,
     color: theme.palette.primary.contrastText
+  },
+  desktopPaper: {
+    [theme.breakpoints.up("sm")]: {
+      display: "none"
+    }
   },
   button: {
     color: theme.palette.primary.contrastText
@@ -38,12 +47,10 @@ const App: FC = () => {
   const previousMonthOfDate = dateFn.subMonths(date, 1);
 
   const handleNextMonth = useCallback(() => {
-    console.log("next");
     setDate(nextMonthOfDate);
   }, [nextMonthOfDate]);
 
   const handlePreviousMonth = useCallback(() => {
-    console.log("prev");
     setDate(previousMonthOfDate);
   }, [previousMonthOfDate]);
 
@@ -77,8 +84,11 @@ const App: FC = () => {
             <ArrowRight />
           </Button>
         </Paper>
-        <Calendar date={date} />
-        <Paper className={classes.paper} component="div">
+        <Calendar currentDate={date} />
+        <Paper
+          className={clsx(classes.paper, classes.desktopPaper)}
+          component="div"
+        >
           <Button
             disabled={!hasPreviousMonth}
             className={classes.button}
