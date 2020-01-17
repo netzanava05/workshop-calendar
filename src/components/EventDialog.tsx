@@ -68,6 +68,7 @@ const EventDialog: FC<EventDialogProps> = props => {
           defaultValue={eventData.description}
           fullWidth
           onChange={handleChange}
+          inputProps={{ maxLength: 40 }}
         />
       </DialogContent>
       <DialogActions className={classes.buttonContainer}>
