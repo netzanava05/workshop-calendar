@@ -23,10 +23,10 @@ const useStyles = makeStyles(theme => ({
     }
   },
   item: {
-    minWidth: "60px",
     display: "inline-flex",
     [theme.breakpoints.up("sm")]: {
-      display: "block"
+      display: "block",
+      width: "60px"
     }
   },
   divider: {
@@ -64,9 +64,15 @@ const useStyles = makeStyles(theme => ({
     }
   },
   description: {
-    paddingLeft: theme.spacing(2),
     [theme.breakpoints.up("sm")]: {
       display: "none"
+    }
+  },
+  date: {
+    marginRight: theme.spacing(2),
+    minWidth: theme.spacing(2.5),
+    [theme.breakpoints.up("sm")]: {
+      marginRight: theme.spacing(0)
     }
   },
   tooltip: {
@@ -185,7 +191,7 @@ const Calendar: FC<CalendarProps> = props => {
               onClick={() => handleOpenDialog(value)}
             >
               <Grid item className={clsx([classes.item])}>
-                <Typography>{value}</Typography>
+                <Typography className={classes.date}>{value}</Typography>
                 <Typography className={classes.description}>
                   {eventDatas[
                     `${value} ${dateFn.format(currentDate, "MMMM yyyy")}`

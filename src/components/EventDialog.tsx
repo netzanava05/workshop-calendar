@@ -5,7 +5,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
-import React, { FC, useState } from "react";
+import React, { FC, useState, useCallback } from "react";
 import EventData from "../types/EventData";
 
 const useStyles = makeStyles(theme => ({
@@ -29,22 +29,40 @@ const EventDialog: FC<EventDialogProps> = props => {
   const classes = useStyles();
   const [description, setDescription] = useState<string>("");
 
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     setDescription("");
     onClose();
-  };
+  }, [onClose]);
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setDescription(event.target.value);
-  };
+  const handleChange = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      setDescription(event.target.value);
+    },
+    []
+  );
 
-  const handleClickSave = () => {
-    onSave({ description, title: eventData.title, eventAt: eventData.eventAt });
+  const handleClickSave = useCallback(() => {
+    // if (eventData.description) {
+    //   console.log(eventData.description);
+    //   setTest(eventData.description);
+    //   console.log(test);
+    // }
+    onSave({
+      description,
+      title: eventData.title,
+      eventAt: eventData.eventAt
+    });
+
     handleClose();
-  };
+  }, [description, eventData.eventAt, eventData.title, handleClose, onSave]);
 
   return (
-    <Dialog open={open} onClose={handleClose} fullWidth>
+    <Dialog
+      open={open}
+      onClose={handleClose}
+      onEnter={() => setDescription(eventData.description)}
+      fullWidth
+    >
       <DialogTitle>{eventData.title}</DialogTitle>
       <DialogContent>
         <TextField
