@@ -42,11 +42,6 @@ const EventDialog: FC<EventDialogProps> = props => {
   );
 
   const handleClickSave = useCallback(() => {
-    // if (eventData.description) {
-    //   console.log(eventData.description);
-    //   setTest(eventData.description);
-    //   console.log(test);
-    // }
     onSave({
       description,
       title: eventData.title,
